@@ -44,19 +44,6 @@ export interface XernerxHooksOptions extends HooksClientOptions {}
  */
 export class XernerxHooks extends HooksClient {
 	/**
-	 * Unique extension identifier recognized by `@xernerx/framework`'s `ExtensionHandler`.
-	 */
-	public readonly id = 'XernerxHooks';
-
-	/**
-	 * Extension filetype discriminator required by `@xernerx/framework`'s `ExtensionHandler`.
-	 */
-	public readonly filetype = 'XernerxExtension' as const;
-
-	private _client!: XernerxClient | XernerxShardClient;
-	private initialized = false;
-
-	/**
 	 * Creates a new {@link XernerxHooks} extension instance and binds it to the provided framework client.
 	 *
 	 * @param client - `XernerxClient` or `XernerxShardClient` instance.
@@ -77,7 +64,7 @@ export class XernerxHooks extends HooksClient {
 	/**
 	 * Attached `XernerxClient` or `XernerxShardClient` instance.
 	 */
-	public get client(): XernerxClient | XernerxShardClient {
+	public override get client(): XernerxClient | XernerxShardClient {
 		return this._client;
 	}
 
@@ -85,18 +72,13 @@ export class XernerxHooks extends HooksClient {
 	 * Attaches the `XernerxClient` or `XernerxShardClient` instance, registering `client.hooks`
 	 * and `client.resolveUserEngagement`.
 	 */
-	public set client(value: XernerxClient | XernerxShardClient) {
-		this._client = value;
+	public override set client(value: XernerxClient | XernerxShardClient) {
 		if (value) {
 			(value as any).hooks = this;
 			(value as any).userEngagementCache = this.cache;
 			(value as any).resolveUserEngagement = (userId: string, force?: boolean) => this.getUserEngagement(userId, (value as XernerxClient)?.user?.id || this.botId, force);
-
-			if (!this.initialized) {
-				this.initialized = true;
-				void this.main(value);
-			}
 		}
+		super.client = value;
 	}
 
 	/**
@@ -105,7 +87,7 @@ export class XernerxHooks extends HooksClient {
 	 *
 	 * @param client - Target `XernerxClient` or `XernerxShardClient`.
 	 */
-	public async main(client: XernerxClient | XernerxShardClient = this._client): Promise<void> {
+	public override async main(client: XernerxClient | XernerxShardClient = this._client): Promise<void> {
 		if (!client) return;
 		this._client = client;
 

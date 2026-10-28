@@ -57,7 +57,7 @@ export type RawWebhookEventName =
 	'POST vote' | 'POST review' | 'PATCH review' | 'DELETE review' | 'VOTE review' | 'POST tip' | 'POST release' | 'POST stat' | 'PATCH stat' | 'DELETE stat' | 'TEST ping';
 
 /**
- * Normalized event name emitted by {@link HooksClient} and {@link XernerxHooks}.
+ * Normalized event name emitted by `HooksClient` and `XernerxHooks`.
  */
 export type WebhookEventName = 'vote' | 'review' | 'tip' | 'release' | 'stat' | 'test' | 'webhook';
 
@@ -146,7 +146,7 @@ export interface VoteWebhookPayload {
 	engagement: UserEngagementState;
 
 	/**
-	 * Resolved Discord `User` or `XernerxUser` instance when running with {@link XernerxHooks}.
+	 * Resolved Discord `User` or `XernerxUser` instance when running with `XernerxHooks`.
 	 */
 	user?: any;
 
@@ -211,7 +211,7 @@ export interface ReviewWebhookPayload {
 	engagement: UserEngagementState;
 
 	/**
-	 * Resolved Discord `User` or `XernerxUser` instance when running with {@link XernerxHooks}.
+	 * Resolved Discord `User` or `XernerxUser` instance when running with `XernerxHooks`.
 	 */
 	user?: any;
 
@@ -271,7 +271,7 @@ export interface TipWebhookPayload {
 	engagement: UserEngagementState;
 
 	/**
-	 * Resolved Discord `User` or `XernerxUser` instance when running with {@link XernerxHooks}.
+	 * Resolved Discord `User` or `XernerxUser` instance when running with `XernerxHooks`.
 	 */
 	user?: any;
 
@@ -402,12 +402,12 @@ export interface TestWebhookPayload {
 }
 
 /**
- * Union of all structured webhook payloads emitted by {@link HooksClient} and {@link XernerxHooks}.
+ * Union of all structured webhook payloads emitted by `HooksClient` and `XernerxHooks`.
  */
 export type WebhookEventPayload = VoteWebhookPayload | ReviewWebhookPayload | TipWebhookPayload | ReleaseWebhookPayload | StatWebhookPayload | TestWebhookPayload;
 
 /**
- * Event listener signature map for {@link HooksClient} and {@link XernerxHooks}.
+ * Event listener signature map for `HooksClient` and `XernerxHooks`.
  */
 export interface HooksEvents {
 	/**

@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"type": "module",
 	"main": "./dist/main.cjs",
 	"module": "./dist/main.js",
@@ -58,6 +58,7 @@
 		"typescript": "^6.0.3"
 	},
 	"dependencies": {
+		"@xernerx/extension-builder": "^0.1.0",
 		"@xernerx/terminal": "^1.1.14",
 		"express": "^5.1.0"
 	},

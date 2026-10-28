@@ -1,5 +1,11 @@
 # @xernerx/hooks
 
+## 0.2.1
+
+### Patch Changes
+
+- Extend `ExtensionBuilder` from `@xernerx/extension-builder` and refine TypeDoc `@param` JSDoc links.
+
 ## 0.2.0
 
 ### Minor Changes

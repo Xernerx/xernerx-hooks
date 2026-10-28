@@ -1,9 +1,9 @@
 /** @format */
 
 import crypto from 'node:crypto';
-import { EventEmitter } from 'node:events';
 import type { Server } from 'node:http';
 import express, { type Express, type Request, type Response, type RequestHandler, type Router } from 'express';
+import { ExtensionBuilder } from '@xernerx/extension-builder';
 import { terminal } from '@xernerx/terminal';
 
 import { BaseClient, type BaseClientOptions } from './BaseClient.js';
@@ -107,7 +107,7 @@ export interface HooksClientOptions extends BaseClientOptions {
  * new Hooks();
  * ```
  */
-export class HooksClient extends EventEmitter {
+export class HooksClient extends ExtensionBuilder<any, HooksClientOptions> {
 	/**
 	 * Discord bot snowflake ID associated with this client.
 	 */
@@ -169,7 +169,7 @@ export class HooksClient extends EventEmitter {
 	 * @param options - Webhook verification, Express server, and engagement cache options.
 	 */
 	constructor(options: HooksClientOptions) {
-		super();
+		super('XernerxHooks', options);
 
 		const base = new BaseClient(options.token || '', { url: options.url, dev: options.dev });
 		this.token = base.token;
@@ -294,8 +294,8 @@ export class HooksClient extends EventEmitter {
 	/**
 	 * Starts the standalone Express HTTP server listening for Xernerx webhooks.
 	 *
-	 * @param port - TCP port to listen on (defaults to {@link port}).
-	 * @param host - Optional hostname/interface to bind to (defaults to {@link host}).
+	 * @param port - TCP port to listen on (defaults to `this.port`).
+	 * @param host - Optional hostname/interface to bind to (defaults to `this.host`).
 	 * @returns A promise that resolves to the active Node.js HTTP `Server`.
 	 */
 	public async start(port = this.port, host = this.host): Promise<Server> {
@@ -563,7 +563,7 @@ export class HooksClient extends EventEmitter {
 	 * falling back to `GET /v1/bots/:botId/users/:userId` on cache miss or TTL expiration.
 	 *
 	 * @param userId - Discord user snowflake ID to check.
-	 * @param botId - Optional Discord bot snowflake ID (defaults to {@link botId}).
+	 * @param botId - Optional Discord bot snowflake ID (defaults to `this.botId`).
 	 * @param force - When `true`, bypasses the cache TTL and forces a fresh REST lookup.
 	 * @returns Resolved {@link UserEngagementState} for the user.
 	 */
@@ -675,7 +675,7 @@ export class HooksClient extends EventEmitter {
 	 * Checks whether the specified user currently has an active vote for the bot.
 	 *
 	 * @param userId - Discord user snowflake ID to check.
-	 * @param botId - Optional Discord bot snowflake ID (defaults to {@link botId}).
+	 * @param botId - Optional Discord bot snowflake ID (defaults to `this.botId`).
 	 * @returns `true` if the user has voted within the last 12 hours; otherwise `false`.
 	 */
 	public async hasVoted(userId: string, botId = this.botId): Promise<boolean> {
@@ -687,7 +687,7 @@ export class HooksClient extends EventEmitter {
 	 * Checks whether the specified user has left an active review for the bot.
 	 *
 	 * @param userId - Discord user snowflake ID to check.
-	 * @param botId - Optional Discord bot snowflake ID (defaults to {@link botId}).
+	 * @param botId - Optional Discord bot snowflake ID (defaults to `this.botId`).
 	 * @returns `true` if the user has an active review; otherwise `false`.
 	 */
 	public async hasReviewed(userId: string, botId = this.botId): Promise<boolean> {
@@ -699,7 +699,7 @@ export class HooksClient extends EventEmitter {
 	 * Returns the cumulative credit amount tipped by the user (`0` if not tipped, `> 0` if tipped).
 	 *
 	 * @param userId - Discord user snowflake ID to check.
-	 * @param botId - Optional Discord bot snowflake ID (defaults to {@link botId}).
+	 * @param botId - Optional Discord bot snowflake ID (defaults to `this.botId`).
 	 * @returns Credit amount tipped by the user (`0` when not tipped).
 	 */
 	public async getTipped(userId: string, botId = this.botId): Promise<number> {
@@ -709,7 +709,7 @@ export class HooksClient extends EventEmitter {
 
 	/**
 	 * Lifecycle hook invoked before a webhook event is emitted on this instance.
-	 * Overridden by {@link XernerxHooks} to resolve and enrich the Discord `User` / `XernerxUser`.
+	 * Overridden by `XernerxHooks` to resolve and enrich the Discord `User` / `XernerxUser`.
 	 *
 	 * @param _eventName - Normalized webhook event name.
 	 * @param _payload - Structured webhook event payload.
