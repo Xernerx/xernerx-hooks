@@ -1,0 +1,7 @@
+# @format
+
+allowBuilds:
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@xernerx/terminal@1.1.13'
+  - '@xernerx/terminal@1.1.14'
