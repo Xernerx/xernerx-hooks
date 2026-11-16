@@ -143,6 +143,7 @@ export class XernerxHooks extends HooksClient {
 					enrichedUser.reviewed = userPayload.engagement.reviewed;
 					enrichedUser.rating = userPayload.engagement.rating;
 					enrichedUser.tipped = userPayload.engagement.tipped;
+					enrichedUser.shadowban = Boolean(userPayload.engagement.shadowban);
 					enrichedUser.engagement = userPayload.engagement;
 
 					userPayload.user = enrichedUser;

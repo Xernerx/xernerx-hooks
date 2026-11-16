@@ -9,8 +9,8 @@ Xernerx Hooks is the official webhook receiver and user engagement cache (`voted
 ## Features
 
 - **HMAC-SHA256 & Secret Verification**: Constant-time verification (`crypto.timingSafeEqual`) of `X-Xernerx-Signature: sha256=<hmac>` and `X-Xernerx-Secret`.
-- **Zero-Database Engagement Cache + REST Fallback**: Caches `voted` (with automatic 12-hour expiry tracking), `reviewed`, and `tipped` states in memory as webhooks arrive, and transparently falls back to `GET /v1/bots/:botId/users/:userId` on cache misses.
-- **Native `@xernerx/framework` Extension**: Registers `this.hooks` on your `XernerxClient` so `EventBuilder` supports `emitter: 'hooks'` and enriches `interaction.user` / `message.user` (`XernerxUser`) with `voted`, `reviewed`, and `tipped`.
+- **Zero-Database Engagement Cache + REST Fallback**: Caches `voted` (with automatic 12-hour expiry tracking), `reviewed`, `tipped`, and `shadowban` states in memory as webhooks arrive, and transparently falls back to `GET /v1/bots/:botId/users/:userId` on cache misses.
+- **Native `@xernerx/framework` Extension**: Registers `this.hooks` on your `XernerxClient` so `EventBuilder` supports `emitter: 'hooks'` and enriches `interaction.user` / `message.user` (`XernerxUser`) with `voted`, `reviewed`, `tipped`, and `shadowban`.
 - **Standalone or Express Middleware**: Can spin up its own HTTP server or mount onto an existing Express application.
 
 ## Install
@@ -236,6 +236,7 @@ new ExpressHooks();
 | `hasVoted(userId, botId?)`                          | `Promise<boolean>`                       | Returns `true` if the user has an active vote within the 12-hour window.                               |
 | `hasReviewed(userId, botId?)`                       | `Promise<boolean>`                       | Returns `true` if the user has an active review on the bot.                                            |
 | `getTipped(userId, botId?)`                         | `Promise<number>`                        | Returns `0` if the user has not tipped, or the positive credit amount (`> 0`) if tipped.               |
+| `hasShadowban(userId, botId?)`                      | `Promise<boolean>`                       | Returns `true` if the user is shadowbanned from global leaderboards.                                   |
 | `verifySignature(rawBody, signatureHdr, secretHdr)` | `boolean`                                | Verifies `X-Xernerx-Signature` (`sha256=<hmac>`) or `X-Xernerx-Secret` using `crypto.timingSafeEqual`. |
 | `handleWebhook(rawEvent, body)`                     | `Promise<{ status: number; body: any }>` | Processes a verified webhook event, updates `this.cache`, and emits typed events.                      |
 | `createRouter()`                                    | `Router`                                 | Creates an Express `Router` mounting `express.raw` and the webhook handler at `this.path`.             |

@@ -45,6 +45,11 @@ export interface UserEngagementState {
 	tipped: number;
 
 	/**
+	 * Whether the user is shadowbanned (excluded from global leaderboards) on Xernerx.
+	 */
+	shadowban?: boolean;
+
+	/**
 	 * Unix timestamp in milliseconds when this cache entry was last updated.
 	 */
 	updatedAt: number;

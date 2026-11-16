@@ -2,6 +2,20 @@
 
 # @xernerx/hooks
 
+## 0.3.0
+
+### Minor Changes
+
+- <!-- @format -->
+  
+  ## `UserEngagementState.shadowban` Support in `HooksClient` & `XernerxHooks`
+  
+  Added `shadowban: boolean` to `UserEngagementState` across `HooksClient` and `XernerxHooks` with REST fallback hydration from `GET /v1/bots/:id/users/:userId`.
+  
+  ### Added
+  
+  - **`UserEngagementState.shadowban` Property**: Added `shadowban: boolean` to `UserEngagementState` and `HooksClient.hasShadowban(userId)` / `getEngagement(userId)` with automatic REST fallback resolution.
+
 ## 0.2.1
 
 ### Patch Changes

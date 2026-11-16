@@ -396,6 +396,7 @@ export class HooksClient extends ExtensionBuilder<any, HooksClientOptions> {
 				reviewed: existing?.reviewed ?? false,
 				rating: existing?.rating ?? null,
 				tipped: existing?.tipped ?? 0,
+				shadowban: Boolean(data.shadowban ?? existing?.shadowban),
 				updatedAt: Date.now(),
 			};
 
@@ -437,6 +438,7 @@ export class HooksClient extends ExtensionBuilder<any, HooksClientOptions> {
 				reviewed: !isDeleted,
 				rating: parsedRating,
 				tipped: existing?.tipped ?? 0,
+				shadowban: Boolean(data.shadowban ?? existing?.shadowban),
 				updatedAt: Date.now(),
 			};
 
@@ -486,6 +488,7 @@ export class HooksClient extends ExtensionBuilder<any, HooksClientOptions> {
 				reviewed: existing?.reviewed ?? false,
 				rating: existing?.rating ?? null,
 				tipped: totalTipped,
+				shadowban: Boolean(data.shadowban ?? existing?.shadowban),
 				updatedAt: Date.now(),
 			};
 
@@ -644,6 +647,7 @@ export class HooksClient extends ExtensionBuilder<any, HooksClientOptions> {
 				reviewed,
 				rating,
 				tipped,
+				shadowban: Boolean(payload.shadowban ?? cached?.shadowban),
 				updatedAt: Date.now(),
 			};
 
@@ -705,6 +709,18 @@ export class HooksClient extends ExtensionBuilder<any, HooksClientOptions> {
 	public async getTipped(userId: string, botId = this.botId): Promise<number> {
 		const state = await this.getUserEngagement(userId, botId);
 		return state.tipped;
+	}
+
+	/**
+	 * Checks whether the specified user is shadowbanned from global leaderboards.
+	 *
+	 * @param userId - Discord user snowflake ID to check.
+	 * @param botId - Optional Discord bot snowflake ID (defaults to `this.botId`).
+	 * @returns `true` if the user is shadowbanned; otherwise `false`.
+	 */
+	public async hasShadowban(userId: string, botId = this.botId): Promise<boolean> {
+		const state = await this.getUserEngagement(userId, botId);
+		return Boolean(state.shadowban);
 	}
 
 	/**
