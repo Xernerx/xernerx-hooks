@@ -2,6 +2,14 @@
 
 # @xernerx/hooks
 
+## 0.3.2
+
+### Patch Changes
+
+- <!-- @format -->
+  
+  Authenticate `Xernerx/docs` clone in `.github/workflows/push.yml`.
+
 ## 0.3.1
 
 ### Patch Changes
