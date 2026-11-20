@@ -1,8 +1,9 @@
+/** @format */
+
 /**
  * `@xernerx/hooks` — Official Xernerx Webhook Receiver & User Engagement Cache (`voted`, `reviewed`, `tipped`).
  *
  * @packageDocumentation
- * @format
  */
 
 import { BaseClient, type BaseClientOptions } from './client/BaseClient.js';
